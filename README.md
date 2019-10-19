@@ -66,13 +66,14 @@ After=graphical.target
 Environment=DISPLAY=:0.0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Type=simple
-ExecStart=/bin/bash /home/pi/kiosk.sh
+ExecStart=/bin/bash /home/pi/kiosk/kiosk.sh
 Restart=on-abort
 User=pi
 Group=pi
 
 [Install]
 WantedBy=graphical.target
+
 ------------------------------------------------------------------------------------
 
 Now we set the service to run at bootup

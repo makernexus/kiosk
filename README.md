@@ -1,25 +1,27 @@
 # kiosk
 Raspberry Pi Kiosk Display
 
-This document describes the use of a Raspberry Pi to display a web page that shows the current members checked-in with their RFID.
+This document describes the use of a Raspberry Pi to display a series of web pages to Maker Nexus memebrs that might include the current members checked-in with their RFID, the calender, and any other pertient information 
  
-Basically this is a full screen web browser displaying the page
-http://rfid.makernexuswiki.com/rfidcurrentcheckins.php
-
-If you have any questions contact craig.colvin@makernexus.org
-
 This Kiosk is based primarily on these instructions
 https://pimylifeup.com/raspberry-pi-kiosk/
 
+If you have any questions contact craig.colvin@makernexus.org
+
+
+Installation
+-------------
 
 The basic steps are:
 - Install Raspbian on Raspberry Pi
 - Connect to MakerNexus wifi
 - Install additional packages on RPi such as xdotool, unclutter, and sed
-- Create a kiosk.sh script file that prevents power management and what to display
-- Making the kiosk run at bootup as a service
+- download files into the directory /home/pi/kiosk
+- Move kiosk.service file to system directory
+- Register kiosk.service so it runs at bootup as a service
+- Generate list of web pages to display
 
----------------------------
+
 Installing Additional Tools
 ---------------------------
 On the RPi we run the following command
@@ -31,58 +33,45 @@ This installs the following
 - unclutter package, will enable us to hide the mouse from the display.
 - sed is used to change settings in the browser to deal with any errors
 
----------------------
+
 The Kiosk.sh Script
 ---------------------
-xset at the beginning prevent the RPi power management from blanking the display.
-Unclutter hides the mouse button after 0.5 seconds of inactivity.
-The sed commands make the Chromium browser not display warning bars and if it crashes to restart.
+This script file is what is run by the service at boot. 
 
-The next section runs a python script to create the file start_browser.sh
-It parses the web page located at http://makernexus.org/kiosk-links and extracts the URLs that will open in tabs in Chromium. The start_browser.sh script
-will start Chromium in kiosk mode with the tabs found on the kiosk-links page.
-
-The final portion of the script uses xdotool to simulate keystrokes to cycle through the tabs at a 8 second interval.
+Some items that you might want to edit
+- The hardcoded directory /home/pi/kiosk
+- The number of seconds to wait before displaying a new page
 
 
---------------------------------------
 Setting Up the Kiosk to Start at Boot
 --------------------------------------
-We are now going to create a service file that will be used at startup.
 
-Create the Kiosk service file using the nano editor
+-Move the kiosk.service file to
+    /lib/systemd/system/
 
-sudo nano /lib/systemd/system/kiosk.service
-
-The following is the contents of the file
-
-------------------------------------------------------------------------------------
-[Unit]
-Description=Chromium Kiosk
-Wants=graphical.target
-After=graphical.target
-
-[Service]
-Environment=DISPLAY=:0.0
-Environment=XAUTHORITY=/home/pi/.Xauthority
-Type=simple
-ExecStart=/bin/bash /home/pi/kiosk/kiosk.sh
-Restart=on-abort
-User=pi
-Group=pi
-
-[Install]
-WantedBy=graphical.target
-
-------------------------------------------------------------------------------------
-
-Now we set the service to run at bootup
-
-sudo systemctl enable kiosk.service
+-Set the service to run at bootup
+    sudo systemctl enable kiosk.service
 
 Now when we reboot we get a full screen web page displayed.
 
-------------
+Some items that you might want to edit
+- The hardcoded directory /home/pi/kiosk
+
+
+Listing What Web Pages to Display
+----------------------------------
+The web page http://makernexus.com/kiosk-links contains a list of URLS located between the tags
+kiosk_list_start and kiosk_list_stop. Any html links located between those two tags will be displayed
+on the kiosk.
+
+One other weird hack to note. 
+Wix will not allow just any URL to be assigned as a HTML link. The Maker Nexus Calendar is supposed to be http://localhost but Wix won't allow it. So I did another hack to work around that. When the code encounters the URL http://mncalendar.html it will replace it with http://localhost
+
+
 Final Points
 ------------
 If you want to cancel the full screen web page press ctrl-shift-w to close Chromium
+
+If the kiosk doesn't run you can use the following command to see the error messages
+sudo systemctl status kiosk.service
+

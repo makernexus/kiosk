@@ -46,11 +46,12 @@ Some items that you might want to edit
 Setting Up the Kiosk to Start at Boot
 --------------------------------------
 
--Move the kiosk.service file to
+- Move the kiosk.service file to
     /lib/systemd/system/
 
--Set the service to run at bootup
-    sudo systemctl enable kiosk.service
+- Set the service to run at bootup
+
+  sudo systemctl enable kiosk.service
 
 Now when we reboot we get a full screen web page displayed.
 
@@ -68,10 +69,18 @@ One other weird hack to note.
 Wix will not allow just any URL to be assigned as a HTML link. The Maker Nexus Calendar is supposed to be http://localhost but Wix won't allow it. So I did another hack to work around that. When the code encounters the URL http://mncalendar.html it will replace it with http://localhost
 
 
+createURLList.py
+----------------
+This Python script is what parses the web page kiosk-links and creates a script file that will load each page in a tab in Chromium.
+
+Some items that you might want to edit
+- The hardcoded directory /home/pi/kiosk
+- The URL of kiosk-links (currently https://www.makernexus.com/kiosk-links)
+
 Final Points
 ------------
 If you want to cancel the full screen web page press ctrl-shift-w to close Chromium
 
 If the kiosk doesn't run you can use the following command to see the error messages
-sudo systemctl status kiosk.service
 
+    sudo systemctl status kiosk.service

@@ -82,7 +82,6 @@ try:
 
 
     startFile = open("/home/pi/kiosk/start_browser.sh", "w")
-    print("Made it here")
     startFile.write("#!/bin/bash\n")
     startFile.write("#This file is overwritten every reboot by createURLList.py\n")
     startFile.write("/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk \\\n")

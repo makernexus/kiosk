@@ -13,6 +13,9 @@ sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium
 #to open Chromium with the tabs populated
 FILE=/home/pi/kiosk/start_browser.sh
 
+#Create the URL script. This will keep trying until it passes
+#typically fails on the first try because the internet is
+#is not quite ready and createURLList.py can grab the web page it needs
 B_SUCCESS=false
 #have to initialize retCode, if not then later statement will always be 0
 retCode=2

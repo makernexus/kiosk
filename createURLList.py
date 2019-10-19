@@ -29,8 +29,16 @@ class MyHTMLParser(HTMLParser):
 
         #add URL to list
         #print(attr['href'])
-        listOfURLS.append(attr['href'])
 
+        #This is a hack to get around the fact that Wix won't allow a URL with //localhost so we 
+        #use http://mncalendar.html in Wix and then change here in the code. 
+        url = attr['href']
+        if "mncalendar" in url:
+            url="http://localhost"
+
+        #listOfURLS.append(attr['href'])
+        listOfURLS.append(url)
+        
     def handle_endtag(self, tag):
         return
         

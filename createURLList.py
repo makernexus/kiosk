@@ -72,28 +72,21 @@ try:
     # feed html data into parser and extract '<a href>'
     myParser.feed(str(rawHtmlFromKioskList))
 
-    # this is a hack to create write permissions for the file
-    # if it was just created. Running this code directly from
-    # bash gave the file the correct permissions but did not
-    # when running as a service 
-    #startFile = open("start_browser.sh", "w")
-    #startFile.close()
-    #os.chmod("start_browser.sh", 0o777)
-
-
+    # create the start_browser.sh file
     startFile = open("/home/pi/kiosk/start_browser.sh", "w")
     startFile.write("#!/bin/bash\n")
     startFile.write("#This file is overwritten every reboot by createURLList.py\n")
     startFile.write("/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk \\\n")
 
 
-    # Parser created a list of URLs, print them out
+    # Parser created a list of URLs, write them to file
     for urlIndex in range(len(listOfURLS)): 
         strURL=listOfURLS[urlIndex]
         startFile.write(strURL)
         startFile.write(" \\\n")
         print(strURL) 
 
+    # last char needs to be & to make process return to calling script
     startFile.write("&")
 
     #clean up and exit

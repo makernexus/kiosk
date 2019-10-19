@@ -70,7 +70,7 @@ try:
     #feed html data into parser and extract '<a href>'
     myParser.feed(str(rawHtmlFromKioskList))
 
-    startFile = open("start_browser_test.sh", "w")
+    startFile = open("start_browser.sh", "w")
     startFile.write("#!/bin/bash\n")
     startFile.write("/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk \\\n")
 

@@ -11,22 +11,25 @@ sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium
 #this file will be created by createURLList.py
 #and will contain the bash script used
 #to open Chromium with the tabs populated
-FILE=/home/pi/start_browser.sh
+FILE=/home/pi/kiosk/start_browser.sh
 
-#remove file if it already exists
-if [ -d "$FILE" ]; then
-   rm "$FILE"
-fi
+B_SUCCESS=false
+#have to initialize retCode, if not then later statement will always be 0
+retCode=2
 
-#run createURLList.py script to get URLS from web
-#
-#this is done in a loop because sometimes the 
-#internet connection takes a while to establish
-#so we keep trying until the file is created.
-while [ ! -f "$FILE" ]
-do 
-   python3 /home/pi/createURLList.py
-   sleep 5
+while [ ! $B_SUCCESS = true ]
+do
+   python3 /home/pi/kiosk/createURLList.py
+   #get return code
+   retCode=$?
+    
+   if [ $retCode = 0 ]; then
+      B_SUCCESS=true
+   else
+      B_SUCCESS=false
+      sleep 5
+   fi
+ 
 done
 
 #Make file executable

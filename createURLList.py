@@ -11,6 +11,8 @@
 # will display in the Chromium broswer
 
 import urllib.request
+import os
+import sys
 from html.parser import HTMLParser
 
 listOfURLS = []
@@ -54,28 +56,39 @@ class MyHTMLParser(HTMLParser):
         if "kiosk_list_stop" in data:
             self.bInList = False
 
-#create a parser object
+# create a parser object
 myParser = MyHTMLParser()
 
-#Attempt to read kiosk-list web page and then extract all URLs
+# Attempt to read kiosk-list web page and then extract all URLs
 try:
     response = urllib.request.urlopen('https://www.makernexus.com/kiosk-links')
     #print(response.info())
     
-    #Get raw HTML data
+    # Get raw HTML data
     rawHtmlFromKioskList = response.read()
  
     response.close()  # best practice to close the file
 
-    #feed html data into parser and extract '<a href>'
+    # feed html data into parser and extract '<a href>'
     myParser.feed(str(rawHtmlFromKioskList))
 
-    startFile = open("start_browser.sh", "w")
+    # this is a hack to create write permissions for the file
+    # if it was just created. Running this code directly from
+    # bash gave the file the correct permissions but did not
+    # when running as a service 
+    #startFile = open("start_browser.sh", "w")
+    #startFile.close()
+    #os.chmod("start_browser.sh", 0o777)
+
+
+    startFile = open("/home/pi/kiosk/start_browser.sh", "w")
+    print("Made it here")
     startFile.write("#!/bin/bash\n")
+    startFile.write("#This file is overwritten every reboot by createURLList.py\n")
     startFile.write("/usr/bin/chromium-browser --noerrdialogs --disable-infobars --kiosk \\\n")
 
 
-    #Parser created a list of URLs, print them out
+    # Parser created a list of URLs, print them out
     for urlIndex in range(len(listOfURLS)): 
         strURL=listOfURLS[urlIndex]
         startFile.write(strURL)
@@ -83,8 +96,12 @@ try:
         print(strURL) 
 
     startFile.write("&")
+
+    #clean up and exit
     startFile.close()
+    sys.exit(0)
 
 except Exception as e:
     print("Encountered an error")
     print(str(e))
+    sys.exit(2)

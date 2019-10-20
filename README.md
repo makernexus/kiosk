@@ -83,4 +83,4 @@ If you want to cancel the full screen web page press **ctrl-shift-w** to close C
 
 If the kiosk doesn't run you can use the following command to see the error messages
 
-    `sudo systemctl status kiosk.service`
+    sudo systemctl status kiosk.service

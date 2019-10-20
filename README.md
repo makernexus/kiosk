@@ -1,7 +1,7 @@
 # kiosk #
 Raspberry Pi Kiosk Display
 
-This document describes the use of a Raspberry Pi to display a series of web pages to Maker Nexus memebrs that might include the current members checked-in with their RFID, the calender, and any other pertient information 
+This document describes the use of a Raspberry Pi to display a series of web pages to Maker Nexus members that might include the current members checked-in with their RFID, the calender, and any other pertient information 
  
 This Kiosk is based primarily on these instructions
 https://pimylifeup.com/raspberry-pi-kiosk/

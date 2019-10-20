@@ -18,9 +18,9 @@ Installing Apache
 -----------------
 Update the available packages
 
-    `sudo apt update`
+    sudo apt update
     
 Then install apache2
 
-    `sudo apt install apache2 -y`
+    sudo apt install apache2 -y
     

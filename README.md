@@ -26,9 +26,9 @@ Installing Additional Tools
 ---------------------------
 On the RPi we run the following command
 
- `sudo apt-get install xdotool unclutter sed
+ `sudo apt-get install xdotool unclutter sed`
 
-This installs the following
+**This installs the following**
 - xdotool which allows our bash script to execute key presses without anyone being on the device. 
 - unclutter package, will enable us to hide the mouse from the display.
 - sed is used to change settings in the browser to deal with any errors
@@ -47,6 +47,7 @@ Setting Up the Kiosk to Start at Boot
 --------------------------------------
 
 - Move the kiosk.service file to
+
     `/lib/systemd/system/`
 
 - Set the service to run at bootup

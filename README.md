@@ -26,7 +26,7 @@ Installing Additional Tools
 ---------------------------
 On the RPi we run the following command
 
-sudo apt-get install xdotool unclutter sed
+ `sudo apt-get install xdotool unclutter sed
 
 This installs the following
 - xdotool which allows our bash script to execute key presses without anyone being on the device. 

@@ -23,4 +23,10 @@ Update the available packages
 Then install apache2
 
     sudo apt install apache2 -y
-    
+
+#To Get Rid of Scroll Bars#
+Use these dimensions when creating the embedded Google calendar
+
+    Height = 1050
+    Width = 1900
+

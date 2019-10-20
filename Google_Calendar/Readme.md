@@ -14,3 +14,13 @@ Steps
     
 - Call the web page using *http://localhost*
 
+Installing Apache
+-----------------
+Update the available packages
+
+    `sudo apt update`
+    
+Then install apache2
+
+    `sudo apt install apache2 -y`
+    
